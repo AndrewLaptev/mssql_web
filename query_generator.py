@@ -29,3 +29,5 @@ with open("query.sql", "w") as query:
     query.write(
         setup_sql + "\n".join(tables_sql) + "\n".join(users_sql)
     )
+
+print("Query is generated!")
