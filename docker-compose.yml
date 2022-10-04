@@ -11,15 +11,32 @@ services:
       ADMINER_DESIGN: "pepa-linha"
       PHP_FPM_INSTALL_MSSQL: "true"
       WORKSPACE_INSTALL_MSSQL: "true"
+    depends_on:
+      mssql:
+        condition: service_healthy
     ports:
       - 8081:8080
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: "mssql"
+    container_name: mssql
     restart: "no"
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "${MSSQL_ADMIN_PASSWORD}"
-    ports:
-      - 1433:1433
+      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+    healthcheck:
+      test: "/opt/mssql-tools/bin/sqlcmd -b -o /dev/null -U sa -P ${MSSQL_SA_PASSWORD} -Q 'SELECT 1;'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  initializator:
+    image: initializator
+    container_name: initializator
+    restart: "no"
+    build: .
+    volumes:
+      - .:/service
+    depends_on:
+      mssql:
+        condition: service_healthy

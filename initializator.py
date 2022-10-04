@@ -1,12 +1,22 @@
 import json
 import os
+import pyodbc
+import dotenv
 
+
+config = dotenv.dotenv_values(dotenv_path=".env")
+
+server = 'mssql'
+database = 'master'
+sa_username = 'sa'
+sa_password = config["MSSQL_SA_PASSWORD"]
+
+query = ""
 setup_sql = ""
 database0_sql = ""
 users_sql: list[str] = list()
 tables_sql: list[str] = list()
 table_filenames = [table_filename for table_filename in os.listdir("data/database0") if "table" in table_filename]
-
 
 with open("data/setup.sql", "r") as setup_file:
     setup_sql = setup_file.read()
@@ -25,9 +35,15 @@ with open("data/users_passwords.json", "r") as user_passw_json:
                 user_temp.replace("user_name", user).replace("password_value", password)
             )
 
-with open("query.sql", "w") as query:
-    query.write(
-        setup_sql + "\n".join(tables_sql) + "\n".join(users_sql)
-    )
+query = setup_sql + "\n".join(tables_sql) + "\n".join(users_sql)
 
-print("Query is generated!")
+connection = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+server+';DATABASE='+database+';ENCRYPT=no;UID='+sa_username+';PWD='+ sa_password, autocommit=True)
+
+for statement in query.split(';'):
+    with connection.cursor() as cursor:
+        if statement:
+            cursor.execute(statement)
+
+connection.close()
+
+print("initialization is completed!")
