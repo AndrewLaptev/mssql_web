@@ -1,0 +1,1 @@
+USE {database} INSERT INTO users VALUES ({id}, '{username}', '{lastname}', '{firstname}', '{secondname}', '{password}');

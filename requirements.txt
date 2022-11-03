@@ -1,2 +1,2 @@
 pyodbc ==4.0.34
-python-dotenv ==0.21.0
+pydantic[dotenv] ==1.10.2
