@@ -13,4 +13,4 @@ COPY . /service
 RUN sh install_odbc.sh
 RUN pip install --disable-pip-version-check --upgrade --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["python", "initializator.py"]
+ENTRYPOINT ["python", "main.py"]

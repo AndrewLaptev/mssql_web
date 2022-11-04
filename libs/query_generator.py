@@ -1,12 +1,9 @@
 import os
-from typing import Generator
-import pyodbc
 
-from settings import settings
 from schemas import User
 
-SETUP_FILENAME = "setup.sql"
 
+SETUP_FILENAME = "setup.sql"
 
 class QueryGenerator:
     def __init__(self, dbms_dir: str, db_name: str, users_db_name: str, users: list[User]) -> None:

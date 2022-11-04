@@ -30,13 +30,13 @@ services:
       timeout: 5s
       retries: 5
   
-  # initializator:
-  #   image: initializator
-  #   container_name: initializator
-  #   restart: "no"
-  #   build: .
-  #   volumes:
-  #     - .:/service
-  #   depends_on:
-  #     mssql:
-  #       condition: service_healthy
+  initializator:
+    image: mssql_initializator
+    container_name: mssql_initializator
+    restart: "no"
+    build: .
+    volumes:
+      - .:/service
+    depends_on:
+      mssql:
+        condition: service_healthy
