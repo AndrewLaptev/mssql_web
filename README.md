@@ -13,12 +13,20 @@ Simple deployment scripts for MS SQL + Adminer for database training course
 
 ## How it works
 
-Deploy three docker containers with MS SQL Server, Adminer and Initializator. Initializator configures and fills MS SQL database via run `initializator.py` via ODBC driver.
+Deploy three docker containers with MS SQL Server, Adminer and Initializator. Initializator configures and fills MS SQL databases via ODBC driver.
 
 ## How to setup
 
-* Copy or rename file `.env.example` to `.env`, open and input MS SQL Server sa password
-* Copy or rename file `data/users_passwords.json.example` to `data/users_passwords.json`, open and input usernames and passwords
+* Create `.csv` file with users in `data` folder by example file `data/users.csv.example`
+* Copy or rename file `.env.example` to `.env`, open and enter values to env variabels
+
+### Structure of `.env` config file:
+ - `MSSQL_SERVER` - MS SQL server name, this name of docker container with MS SQL and hostname also
+ - `MSSQL_SA_USERNAME` - MS SQL admin name
+ - `MSSQL_SA_PASSWORD` - MS SQL admin password
+ - `MSSQL_USERNAME_TEMPLATE` - template username for MS SQL users generation (ex. `user` wil be generated like `user1`, `user2` etc., where number it is `id` column from `.csv` users file
+ - `MSSQL_PASSWORD_LEN` - password length for MS SQL users from `.csv` file
+ - `USERS_CSV_FILE` - filename for `.csv` users file contain in `data` folder
 
 ## Installation
 
