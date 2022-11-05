@@ -9,7 +9,7 @@ SA_USERNAME = settings.mssql_sa_username
 SA_PASSWORD = settings.mssql_sa_password
 USERS_CSV_FILE = settings.users_csv_file
 
-users = [user for user in UserGenerator(USERS_CSV_FILE).generate()]
+users = [user for user in UserGenerator(f"data/{USERS_CSV_FILE}").generate()]
 query = QueryGenerator("dbms", "database0", "users", users).get_query()
 
 connection = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+SERVER+';DATABASE=master;ENCRYPT=no;UID='+SA_USERNAME+';PWD='+ SA_PASSWORD, autocommit=True)
